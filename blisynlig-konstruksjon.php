@@ -3,7 +3,7 @@
 Plugin Name: BliSynlig AS - Under konstruksjon
 Plugin URI: https://www.blisynlig.no
 Description: En simpel 'under konstruksjon' side for BliSynlig AS sine nettsider.
-Version: 2.14
+Version: 2.14.1
 Requires at least: 5.2
 Requires PHP: 7.2
 Author: BliSynlig AS
@@ -157,7 +157,7 @@ function blisynlig_submenu_page_callback() {
         <h1 style="font-weight: bold; font-size:2.5em;">BliSynlig AS - Under Konstruksjon</h1>
         <h3>For lettere HTML redigering, besøk <a href="https://www.tutorialspoint.com/online_html_editor.php" target="_blank">denne nettsiden</a> for en online editor med live oppdatering.</h3>
         <h1><a href="http://tpcg.io/FL1BJ2" target="_blank">BliSynlig AS template</a></h1>
-        <?php echo blisynligGetIPAddress(); ?>
+        <?php /* echo blisynligGetIPAddress(); */ ?>
         <form action="options.php" method="post">
             <?php settings_fields('blisynlig-settings-group'); ?>
             <?php do_settings_sections('blisynlig-settings-group'); ?>
@@ -188,7 +188,7 @@ function blisynlig_submenu_page_callback() {
                 <?php } ?>
                     
                 <h3><?php _e('Angi antall dager siden skal huskes av nettleseren.', 'blisynlig'); ?></h3>
-                <input type="number" name="blisynlig-cookie-time" value="<?php echo esc_attr( get_option('blisynlig-cookie-time') ); ?>" /><br />
+                <input type="number" name="blisynlig-cookie-time" min="1" max="365" value="<?php echo esc_attr( get_option('blisynlig-cookie-time') ); ?>" /><br />
                 <i><?php _e('Standard er 30 dager hvis ingenting er avgitt. Kan ikke være større enn 365 dager.', 'blisynlig'); ?></i>
             </section>
 
