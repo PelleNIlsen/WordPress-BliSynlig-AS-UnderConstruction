@@ -41,8 +41,8 @@ function blisynlig_init() {
         /* Get whitelist array */
         $ip_array = explode("\n", $ip_list);
         $clean_ip_array = [];
-        foreach ($ip_array as $user_ip) {
-            if (preg_match('/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/', $user_ip, $ip_match)) {
+        foreach ($ip_array as $ip) {
+            if (preg_match('/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/', $ip, $ip_match)) {
                 $clean_ip_array[] = $ip_match[0];
             }
         }
