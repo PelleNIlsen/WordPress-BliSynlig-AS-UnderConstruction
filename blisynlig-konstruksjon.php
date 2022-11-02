@@ -148,6 +148,9 @@ function blisynlig_submenu_page_callback() {
             font-style: italic;
             color: #666;
         }
+        .button-primary {
+            width: 100%;
+        }
     </style>
     <div class="wrap">
         <img src="https://i.imgur.com/IMABxA5.png">
@@ -169,12 +172,12 @@ function blisynlig_submenu_page_callback() {
                 <span><?php _e("Gjør Wordpress sin static hjemmeside synlig: ", "blisynlig"); ?> <?php echo (get_option('page_on_front') != 0) ? sprintf( "<i><a href='%s'>%s</a></i>", get_edit_post_link( get_option('page_on_front'), 'edit'), get_the_title( get_option('page_on_front') ) ) : "Ikke satt"; ?></span>
             
                 <h3><?php _e("HTML som vises på 'Under-konstruksjon'- siden", "blisynlig"); ?></h3>
-                <textarea name="blisynlig-html" style="width: 600px; max-width: 100%; height: 500px;"><?php echo esc_attr( get_option('blisynlig-html') ); ?></textarea>
+                <textarea name="blisynlig-html" style="width: 100%; max-width: 100%; height: 500px;"><?php echo esc_attr( get_option('blisynlig-html') ); ?></textarea>
             </section>
 
             <section>
                 <h2><?php _e('Hemmelig ord'); ?></h2>
-                <p><?php _e("Legg til ditt hemmelige ord for å lage en lenke du kan bruke og omgå siden 'Under-konstruksjon', en cookie lagres for å huske den nettleseren. Fjern det hemmelige ordet eller fjern merket for aktiveringstillegget for å deaktivere nettstedet under konstruksjonen. Når du endrer det hemmelige ordet, vil alle tidligere cookies være fordelt.", 'blisynlig'); ?></p>
+                <p><?php _e("Legg til ditt hemmelige ord for å lage en lenke du kan bruke og omgå siden 'Under-konstruksjon'. En cookie lagres for å huske den nettleseren. Fjern det hemmelige ordet eller fjern merket for aktiveringstillegget for å deaktivere det hemmelige ordet under konstruksjonen. Når du endrer det hemmelige ordet, vil alle tidligere cookies være ubrukelig, og bruker må bruke det nye ordet en gang før det lagres som en cookie igjen.", 'blisynlig'); ?></p>
                 <h3><?php _e("Hemmelig ord for å omgå for én nettleser", 'blisynlig'); ?></h3>
                 <input type="text" name="blisynlig-secret-word" value="<?php echo esc_attr( get_option('blisynlig-secret-word') ); ?>" /><br />
                 <?php if (get_option('blisynlig-secret-word') != "") { ?>
@@ -195,7 +198,7 @@ function blisynlig_submenu_page_callback() {
                 <p><?php _e("Legg til en bruker-IP til whitelisten, én IP per rad. <br />Kommenter etter IP-en for å huske hvilken bruker eller tjeneste som bruker IP-en. Vi finner den første IP-adressen ved hver nye rad."); ?></p>
 
                 <h3><?php _e('Bruker-IP-adresser til whitelist', 'blisynlig'); ?></h3>
-                <textarea name="blisynlig-ip" id="blisynlig-ip" style="width: 600px; max-width: 100%; height: 200px;"><?php echo esc_attr( get_option('blisynlig-ip') ); ?></textarea>
+                <textarea name="blisynlig-ip" id="blisynlig-ip" style="width: 100%; max-width: 100%; height: 200px;"><?php echo esc_attr( get_option('blisynlig-ip') ); ?></textarea>
                 <p><i>Legg til IP-adressen din på whitelisten. <span style='cursor: pointer; text-decoration: underline;' id='blisynlig-append-link' href='#'><?= blisynligGetIPAddress(); ?></span></i></p>
                 <?php 
                 ?>
@@ -206,7 +209,7 @@ function blisynlig_submenu_page_callback() {
                         if (document.getElementById("blisynlig-ip").value != '') {
                             new_line = '\n';
                         }
-                        document.getElementById("blisynlig-ip").value += new_line + '<?= blisynligGetIPAddress() ?> // my ip'
+                        document.getElementById("blisynlig-ip").value += new_line + '<?= blisynligGetIPAddress() ?> // min ip'
                     });            
                 </script>
             </section>
