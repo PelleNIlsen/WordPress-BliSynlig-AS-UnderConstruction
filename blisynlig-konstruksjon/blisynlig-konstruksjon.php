@@ -2,10 +2,14 @@
 /* 
 Plugin Name: BliSynlig AS - Under konstruksjon
 Plugin URI: https://www.blisynlig.no
-Description: En simpel under konstruksjon side for BliSynlig AS sine nettsider.
-Version: 1.0
+Description: En simpel 'under konstruksjon' side for BliSynlig AS sine nettsider.
+Version: 2.14
+Requires at least: 5.2
+Requires PHP: 7.2
 Author: BliSynlig AS
 Author URI: https://www.blisynlig.no
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: blisynlig-konstruksjon
 Domain Path: /languages
 */
@@ -115,23 +119,44 @@ function blisynlig_plugin_settings() {
 function blisynlig_submenu_page_callback() {
 ?>
     <style>
+        .wrap {
+            margin: 20px;
+        }
         form {
-            max-width: 600px;
+            max-width: 800px;
+            padding: 20px;
+            border-left: 1px solid black
+        }
+        body {
+            background-color: #bfdac6;
         }
         section {
             margin-bottom: 60px;
         }
         h3 {
             margin-top: 20px;
-            font-size: 13px;
+            font-size: 18px;
         }
         input[type='text'],
         input[type='number'] {
             margin-bottom: 10px;
         }
+        p, span {
+            font-size: 16px;
+        }
+        .mute {
+            font-style: italic;
+            color: #666;
+        }
+        .button-primary {
+            width: 100%;
+        }
     </style>
     <div class="wrap">
-        <h1>BliSynlig AS - Under Konstruksjon</h1>
+        <img src="https://i.imgur.com/IMABxA5.png">
+        <h1 style="font-weight: bold; font-size:2.5em;">BliSynlig AS - Under Konstruksjon</h1>
+        <h3>For lettere HTML redigering, besøk <a href="https://www.tutorialspoint.com/online_html_editor.php" target="_blank">denne nettsiden</a> for en online editor med live oppdatering.</h3>
+        <h1><a href="http://tpcg.io/FL1BJ2" target="_blank">BliSynlig AS template</a></h1>
 
         <form action="options.php" method="post">
             <?php settings_fields('blisynlig-settings-group'); ?>
@@ -147,12 +172,12 @@ function blisynlig_submenu_page_callback() {
                 <span><?php _e("Gjør Wordpress sin static hjemmeside synlig: ", "blisynlig"); ?> <?php echo (get_option('page_on_front') != 0) ? sprintf( "<i><a href='%s'>%s</a></i>", get_edit_post_link( get_option('page_on_front'), 'edit'), get_the_title( get_option('page_on_front') ) ) : "Ikke satt"; ?></span>
             
                 <h3><?php _e("HTML som vises på 'Under-konstruksjon'- siden", "blisynlig"); ?></h3>
-                <textarea name="blisynlig-html" style="width: 600px; max-width: 100%; height: 200px;"><?php echo esc_attr( get_option('blisynlig-html') ); ?></textarea>
+                <textarea name="blisynlig-html" style="width: 100%; max-width: 100%; height: 500px;"><?php echo esc_attr( get_option('blisynlig-html') ); ?></textarea>
             </section>
 
             <section>
                 <h2><?php _e('Hemmelig ord'); ?></h2>
-                <p><?php _e("Legg til ditt hemmelige ord for å lage en lenke du kan bruke og omgå siden 'Under-konstruksjon', en cookie lagres for å huske den nettleseren. Fjern det hemmelige ordet eller fjern merket for aktiveringstillegget for å deaktivere nettstedet under konstruksjonen. Når du endrer det hemmelige ordet, vil alle tidligere cookies være fordelt.", 'blisynlig'); ?></p>
+                <p><?php _e("Legg til ditt hemmelige ord for å lage en lenke du kan bruke og omgå siden 'Under-konstruksjon'. En cookie lagres for å huske den nettleseren. Fjern det hemmelige ordet eller fjern merket for aktiveringstillegget for å deaktivere det hemmelige ordet under konstruksjonen. Når du endrer det hemmelige ordet, vil alle tidligere cookies være ubrukelig, og bruker må bruke det nye ordet en gang før det lagres som en cookie igjen.", 'blisynlig'); ?></p>
                 <h3><?php _e("Hemmelig ord for å omgå for én nettleser", 'blisynlig'); ?></h3>
                 <input type="text" name="blisynlig-secret-word" value="<?php echo esc_attr( get_option('blisynlig-secret-word') ); ?>" /><br />
                 <?php if (get_option('blisynlig-secret-word') != "") { ?>
@@ -173,7 +198,7 @@ function blisynlig_submenu_page_callback() {
                 <p><?php _e("Legg til en bruker-IP til whitelisten, én IP per rad. <br />Kommenter etter IP-en for å huske hvilken bruker eller tjeneste som bruker IP-en. Vi finner den første IP-adressen ved hver nye rad."); ?></p>
 
                 <h3><?php _e('Bruker-IP-adresser til whitelist', 'blisynlig'); ?></h3>
-                <textarea name="blisynlig-ip" id="blisynlig-ip" style="width: 600px; max-width: 100%; height: 200px;"><?php echo esc_attr( get_option('blisynlig-ip') ); ?></textarea>
+                <textarea name="blisynlig-ip" id="blisynlig-ip" style="width: 100%; max-width: 100%; height: 200px;"><?php echo esc_attr( get_option('blisynlig-ip') ); ?></textarea>
                 <p><i>Legg til IP-adressen din på whitelisten. <span style='cursor: pointer; text-decoration: underline;' id='blisynlig-append-link' href='#'><?= blisynligGetIPAddress(); ?></span></i></p>
                 <?php 
                 ?>
@@ -184,12 +209,12 @@ function blisynlig_submenu_page_callback() {
                         if (document.getElementById("blisynlig-ip").value != '') {
                             new_line = '\n';
                         }
-                        document.getElementById("blisynlig-ip").value += new_line + '<?= blisynligGetIPAddress() ?> // my ip'
+                        document.getElementById("blisynlig-ip").value += new_line + '<?= blisynligGetIPAddress() ?> // min ip'
                     });            
                 </script>
             </section>
             <?php submit_button(); ?>
-
+            <p class="mute">Laget av BliSynlig AS</p>
         </form>
     </div>
 <?php }
@@ -212,7 +237,7 @@ function blisynligGetIPAddress() {
 }
 
 /* Add settingslink in plugin-list */
-add_filter( 'plugin_action_links_blisynlig-konstrukjon/blisynlig-konstrukjon.php', 'blisynlig_settings_link' );
+add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'blisynlig_settings_link' );
 function blisynlig_settings_link( $links ) {
     /* Build and escape the URL */
     $url = esc_url( add_query_arg(
