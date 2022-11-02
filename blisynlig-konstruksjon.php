@@ -41,8 +41,8 @@ function blisynlig_init() {
         /* Get whitelist array */
         $ip_array = explode("\n", $ip_list);
         $clean_ip_array = [];
-        foreach ($ip_array as $ip) {
-            if (preg_match('/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/', $ip, $ip_match)) {
+        foreach ($ip_array as $user_ip) {
+            if (preg_match('/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/', $user_ip, $ip_match)) {
                 $clean_ip_array[] = $ip_match[0];
             }
         }
@@ -157,7 +157,7 @@ function blisynlig_submenu_page_callback() {
         <h1 style="font-weight: bold; font-size:2.5em;">BliSynlig AS - Under Konstruksjon</h1>
         <h3>For lettere HTML redigering, besøk <a href="https://www.tutorialspoint.com/online_html_editor.php" target="_blank">denne nettsiden</a> for en online editor med live oppdatering.</h3>
         <h1><a href="http://tpcg.io/FL1BJ2" target="_blank">BliSynlig AS template</a></h1>
-
+        <?php echo blisynligGetIPAddress(); ?>
         <form action="options.php" method="post">
             <?php settings_fields('blisynlig-settings-group'); ?>
             <?php do_settings_sections('blisynlig-settings-group'); ?>
