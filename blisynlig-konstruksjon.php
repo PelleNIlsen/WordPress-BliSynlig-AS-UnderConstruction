@@ -3,7 +3,7 @@
 Plugin Name: BliSynlig AS - Under konstruksjon
 Plugin URI: https://www.blisynlig.no
 Description: En simpel 'under konstruksjon' side for BliSynlig AS sine nettsider.
-Version: 2.14.3
+Version: 2.15
 Requires at least: 5.2
 Requires PHP: 7.2
 Author: BliSynlig AS
