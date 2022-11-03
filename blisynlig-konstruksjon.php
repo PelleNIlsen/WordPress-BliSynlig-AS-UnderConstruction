@@ -236,6 +236,8 @@ function blisynlig_submenu_page_callback() {
                 <span><?php _e("Gjør Wordpress sin static hjemmeside synlig: ", "blisynlig"); ?> <?php echo (get_option('page_on_front') != 0) ? sprintf( "<i><a href='%s'>%s</a></i>", get_edit_post_link( get_option('page_on_front'), 'edit'), get_the_title( get_option('page_on_front') ) ) : "Ikke satt"; ?></span>
             
                 <h3><?php _e("HTML som vises på 'Under-konstruksjon'- siden", "blisynlig"); ?></h3>
+                <i><?php _e('Eksempel: &#60;h1>Hei!&#60;/h1>', 'blisynlig'); ?></i>
+
                 <textarea name="blisynlig-html" style="width: 100%; max-width: 100%; height: 500px;"><?php echo esc_attr( get_option('blisynlig-html') ); ?></textarea>
             </section>
 
@@ -243,6 +245,7 @@ function blisynlig_submenu_page_callback() {
                 <h2><?php _e('Hemmelig ord'); ?></h2>
                 <p><?php _e("Legg til ditt hemmelige ord for å lage en lenke du kan bruke og omgå siden 'Under-konstruksjon'. En cookie lagres for å huske den nettleseren. Fjern det hemmelige ordet eller fjern merket for aktiveringstillegget for å deaktivere det hemmelige ordet under konstruksjonen. Når du endrer det hemmelige ordet, vil alle tidligere cookies være ubrukelig, og bruker må bruke det nye ordet en gang før det lagres som en cookie igjen.", 'blisynlig'); ?></p>
                 <h3><?php _e("Hemmelig ord for å omgå for én nettleser", 'blisynlig'); ?></h3>
+                <i><?php _e('Eksempel: visning', 'blisynlig'); ?></i><br>
                 <input type="text" name="blisynlig-secret-word" value="<?php echo esc_attr( get_option('blisynlig-secret-word') ); ?>" /><br />
                 <?php if (get_option('blisynlig-secret-word') != "") { ?>
                     <p><i><?php printf(
@@ -252,6 +255,7 @@ function blisynlig_submenu_page_callback() {
                 <?php } ?>
                     
                 <h3><?php _e('Angi antall dager siden skal huskes av nettleseren.', 'blisynlig'); ?></h3>
+                <i><?php _e('Eksempel: 3', 'blisynlig'); ?></i><br>
                 <input type="number" name="blisynlig-cookie-time" min="1" max="365" value="<?php echo esc_attr( get_option('blisynlig-cookie-time') ); ?>" /><br />
                 <i><?php _e('Standard er 30 dager hvis ingenting er avgitt. Kan ikke være større enn 365 dager.', 'blisynlig'); ?></i>
             </section>
@@ -262,6 +266,7 @@ function blisynlig_submenu_page_callback() {
                 <p><?php _e("Legg til en bruker-IP til whitelisten, én IP per rad. <br />Kommenter etter IP-en for å huske hvilken bruker eller tjeneste som bruker IP-en. Vi finner den første IP-adressen ved hver nye rad."); ?></p>
 
                 <h3><?php _e('Bruker-IP-adresser til whitelist', 'blisynlig'); ?></h3>
+                <i><?php _e('Eksempel: 12.34.567.890 // Min ip', 'blisynlig'); ?></i>
                 <textarea name="blisynlig-ip" id="blisynlig-ip" style="width: 100%; max-width: 100%; height: 200px;"><?php echo esc_attr( get_option('blisynlig-ip') ); ?></textarea>
                 <p><i>Legg til IP-adressen din på whitelisten. <span style='cursor: pointer; text-decoration: underline;' id='blisynlig-append-link' href='#'><?= blisynligGetIPAddress(); ?></span></i></p>
                 <?php 
@@ -286,11 +291,13 @@ function blisynlig_submenu_page_callback() {
         <form>
             <section>
                 <h3><?php _e("Sett inn link til logo (gjennomsiktig PNG for bedre resultater). Logo med dimensjoner 400x100 fungerer best.", 'blisynlig'); ?></h3>
+                <i><?php _e('Eksempel: https://bilde.png', 'blisynlig'); ?></i><br>
                 <input type="url" id="urlToLogo">
                 <p><?php _e("Standard logo er BliSynlig AS sin SVG logo.", 'blisynlig'); ?></p>
             </section>
             <section>
-                <h3><?php _e("Sett inn en custom tekst til under logoen. (Legg til <br> for å hoppe til neste linje)", 'blisynlig'); ?></h3>
+                <h3><?php _e("Sett inn en custom tekst til under logoen. (Legg til &#60;br> for å hoppe til neste linje)", 'blisynlig'); ?></h3>
+                <i><?php _e('Eksempel: Hei! &#60;br> Vi er under bearbeidelse.&#60;br>Kontakt oss her:', 'blisynlig'); ?></i><br>
                 <input type="url" id="textToText">
                 <p><?php _e("Standard tekst er: Dette nettsteder er for øyeblikket under bearbeidelse. /n For henvendelser, kontakt oss her:", 'blisynlig'); ?></p>
             </section>
@@ -364,7 +371,7 @@ function blisynlig_submenu_page_callback() {
                         if (document.getElementById("urlToLogo").value != '') {
                             urlToLogo = document.getElementById("urlToLogo").value;
                         }
-                        let textToText = "Dette nettsteder er for øyeblikket under bearbeidelse.<br>For henvendelser, kontakt oss her:";
+                        let textToText = "Dette nettstedet er for øyeblikket under bearbeidelse.<br>For henvendelser, kontakt oss her:";
                         if (document.getElementById("textToText").value != '') {
                             textToText = document.getElementById("textToText").value;
                         }
