@@ -167,6 +167,53 @@ function blisynlig_submenu_page_callback() {
         .gap20 {
             height: 20px;
         }
+        #swatch {
+            background: white;
+            box-shadow: 1em 1em 1em rgba(0, 0, 0, .1);
+            display: flex;
+            flex-direction: column;
+            width: min-content;
+        }
+        #swatch .info {
+            padding: 1em;
+        }
+        #swatch h1 {
+            margin: 0;
+            text-transform: uppercase;
+        }
+        #swatch h2 {
+            font-weight: normal;
+            margin: 0;
+        }
+        input[type="color"] {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background: none;
+            border: 0;
+            cursor: pointer;
+            height: 10em;
+            width: 10em;
+            padding: 0;
+        }
+        #swatch > *:focus {
+            border-radius: 0;
+            outline: 0;
+        }
+        ::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        ::-webkit-color-swatch {
+            border: 0;
+            border-radius: 0;
+        }
+        ::-moz-color-swatch,
+        ::-moz-focus-inner {
+            border: 0;
+        }
+        ::-moz-focus-inner {
+            padding: 0;
+        }
     </style>
     <div class="wrap">
         <img src="https://i.imgur.com/IMABxA5.png">
@@ -249,23 +296,68 @@ function blisynlig_submenu_page_callback() {
             </section>
             <section>
                 <h3><?php _e("Velg bakgrunnsfarge (En lysere farge enn logo fargen fungerer bra).", 'blisynlig'); ?></h3>
-                <input type="color" id="backgroundColor">
+                <div id="swatch">
+                    <input type="color" id="backgroundColor" oninput="colorPicker(this.id)">
+                    <div class="info">
+                        <h1 id="backgroundColorShow" contenteditable="true" onblur="changeColorVal(this.id)">#000000</h1>
+                    </div>
+                </div>
                 <p><?php _e("Standard bakgrunnsfarge BliSynlig AS sin lyse grønne bakgrunnsfarge.", 'blisynlig'); ?></p>
             </section>
             <section>
                 <h3><?php _e("Velg tekst farge til kontakt info (Mørkere farge som logo funker bra).", 'blisynlig'); ?></h3>
-                <input type="color" id="contactInfoColor">
+                <div id="swatch">
+                    <input type="color" id="contactInfoColor" oninput="colorPicker(this.id)">
+                    <div class="info">
+                        <h1 id="contactInfoColorShow" contenteditable="true" onblur="changeColorVal(this.id)">#000000</h1>
+                    </div>
+                </div>
                 <p><?php _e("Standard kontakt info farge er en mørkere grønn som passer til BliSynlig AS sin logo.", 'blisynlig'); ?></p>
             </section>
             <section>
                 <h3><?php _e("Velg tekst farge til kontakt info:hover (Lik eller lysere farge som logo funker bra).", 'blisynlig'); ?></h3>
-                <input type="color" id="contactInfoColorHover">
+                <div id="swatch">
+                    <input type="color" id="contactInfoColorHover" oninput="colorPicker(this.id)">
+                    <div class="info">
+                        <h1 id="contactInfoColorHoverShow" contenteditable="true" onblur="changeColorVal(this.id)">#000000</h1>
+                    </div>
+                </div>
                 <p><?php _e("Standard hover farge til kontakt info er lik BliSynlig AS sin grønn farge i logoen.", 'blisynlig'); ?></p>
             </section>
             <section>
                 <h3><?php _e("Klikk på knappen nedenfor for å få HTML koden.", 'blisynlig'); ?></h3>
                 <button class="button button-primary" id="createHTML">Få HTML</button>
                 <script>
+                    function pickTextColorBasedOnBgColorAdvanced(bgColor, lightColor, darkColor) {
+                    let color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
+                    let r = parseInt(color.substring(0, 2), 16); // hexToR
+                    let g = parseInt(color.substring(2, 4), 16); // hexToG
+                    let b = parseInt(color.substring(4, 6), 16); // hexToB
+                    let uicolors = [r / 255, g / 255, b / 255];
+                    let c = uicolors.map((col) => {
+                        if (col <= 0.03928) {
+                        return col / 12.92;
+                        }
+                        return Math.pow((col + 0.055) / 1.055, 2.4);
+                    });
+                    let L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
+                    return (L > 0.179) ? darkColor : lightColor;
+                    }
+
+                    function colorPicker(id) {
+                        var color = document.getElementById(id).value;
+                        document.getElementById(id + "Show").innerHTML = color;
+                        document.getElementById(id + "Show").style.color = color;
+                        document.getElementById(id).parentElement.style.backgroundColor = pickTextColorBasedOnBgColorAdvanced(color, "#FFFFFF", "#000000");
+                    }
+
+                    function changeColorVal(id) {
+                        var color = document.getElementById(id).innerHTML;
+                        document.getElementById(id.replace("Show", "")).value = color;
+                        document.getElementById(id).style.color = color;
+                        document.getElementById(id).parentElement.parentElement.style.backgroundColor = pickTextColorBasedOnBgColorAdvanced(color, "#FFFFFF", "#000000");
+                    }
+
                     document.getElementById('createHTML').addEventListener('click', function (ev) {
                         ev.preventDefault();
                         let urlToLogo = "https://www.blisynlig.no/wp-content/uploads/2021/12/BliSynlig-logo-original.svg";
