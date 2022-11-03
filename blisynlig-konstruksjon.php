@@ -151,9 +151,26 @@ function blisynlig_submenu_page_callback() {
         .button-primary {
             width: 100%;
         }
+        .divider {
+            width: 100%;
+            height: 1px;
+            background-color: black;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .gap100 {
+            height: 100px;
+        }
+        .gap50 {
+            height: 50px;
+        }
+        .gap20 {
+            height: 20px;
+        }
     </style>
     <div class="wrap">
         <img src="https://i.imgur.com/IMABxA5.png">
+        <div class="divider"></div>
         <h1 style="font-weight: bold; font-size:2.5em;">BliSynlig AS - Under Konstruksjon</h1>
         <h3>For lettere HTML redigering, besøk <a href="https://www.tutorialspoint.com/online_html_editor.php" target="_blank">denne nettsiden</a> for en online editor med live oppdatering.</h3>
         <h1><a href="http://tpcg.io/FL1BJ2" target="_blank">BliSynlig AS template</a></h1>
@@ -215,6 +232,144 @@ function blisynlig_submenu_page_callback() {
             </section>
             <?php submit_button(); ?>
             <p class="mute">Laget av BliSynlig AS</p>
+        </form>
+        <div class="gap100"></div>
+        <h1 style="font-weight: bold; font-size:2.5em;">Standard Template Editor</h1>
+        <h3>Her kan du endre logo, farger og kontakt info på BliSynlig AS Templaten. La feltene stå blankt for standard.</h3>
+        <form>
+            <section>
+                <h3><?php _e("Sett inn link til logo (gjennomsiktig PNG for bedre resultater). Logo med dimensjoner 400x100 fungerer best.", 'blisynlig'); ?></h3>
+                <input type="url" id="urlToLogo">
+                <p><?php _e("Standard logo er BliSynlig AS sin SVG logo.", 'blisynlig'); ?></p>
+            </section>
+            <section>
+                <h3><?php _e("Sett inn en custom tekst til under logoen. (Legg til <br> for å hoppe til neste linje)", 'blisynlig'); ?></h3>
+                <input type="url" id="textToText">
+                <p><?php _e("Standard tekst er: Dette nettsteder er for øyeblikket under bearbeidelse. /n For henvendelser, kontakt oss her:", 'blisynlig'); ?></p>
+            </section>
+            <section>
+                <h3><?php _e("Velg bakgrunnsfarge (En lysere farge enn logo fargen fungerer bra).", 'blisynlig'); ?></h3>
+                <input type="color" id="backgroundColor">
+                <p><?php _e("Standard bakgrunnsfarge BliSynlig AS sin lyse grønne bakgrunnsfarge.", 'blisynlig'); ?></p>
+            </section>
+            <section>
+                <h3><?php _e("Velg tekst farge til kontakt info (Mørkere farge som logo funker bra).", 'blisynlig'); ?></h3>
+                <input type="color" id="contactInfoColor">
+                <p><?php _e("Standard kontakt info farge er en mørkere grønn som passer til BliSynlig AS sin logo.", 'blisynlig'); ?></p>
+            </section>
+            <section>
+                <h3><?php _e("Velg tekst farge til kontakt info:hover (Lik eller lysere farge som logo funker bra).", 'blisynlig'); ?></h3>
+                <input type="color" id="contactInfoColorHover">
+                <p><?php _e("Standard hover farge til kontakt info er lik BliSynlig AS sin grønn farge i logoen.", 'blisynlig'); ?></p>
+            </section>
+            <section>
+                <h3><?php _e("Klikk på knappen nedenfor for å få HTML koden.", 'blisynlig'); ?></h3>
+                <button class="button button-primary" id="createHTML">Få HTML</button>
+                <script>
+                    document.getElementById('createHTML').addEventListener('click', function (ev) {
+                        ev.preventDefault();
+                        let urlToLogo = "https://www.blisynlig.no/wp-content/uploads/2021/12/BliSynlig-logo-original.svg";
+                        if (document.getElementById("urlToLogo").value != '') {
+                            urlToLogo = document.getElementById("urlToLogo").value;
+                        }
+                        let textToText = "Dette nettsteder er for øyeblikket under bearbeidelse.<br>For henvendelser, kontakt oss her:";
+                        if (document.getElementById("textToText").value != '') {
+                            textToText = document.getElementById("textToText").value;
+                        }
+                        let backgroundColor = "#bfdac6";
+                        if (document.getElementById("backgroundColor").value != '#000000') {
+                            backgroundColor = document.getElementById("backgroundColor").value;
+                        }
+                        let contactInfoColor = "#2C5B32";
+                        if (document.getElementById("contactInfoColor").value != '#000000') {
+                            contactInfoColor = document.getElementById("contactInfoColor").value;
+                        }
+                        let contactInfoColorHover = "#59B463";
+                        if (document.getElementById("contactInfoColorHover").value != '#000000') {
+                            contactInfoColorHover = document.getElementById("contactInfoColorHover").value;
+                        }
+                        // console.log(urlToLogo, backgroundColor, contactInfoColor, contactInfoColorHover);
+                        let html = `<style>
+                                        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+                                        * {
+                                            text-align: center;
+                                        }
+
+                                        .main {
+                                            width: max-content;
+                                            height: min-content;
+                                            padding: 50px;
+                                            position: absolute;
+                                        }
+
+                                        * {
+                                            margin: 0;
+                                            padding: 0;
+                                        }
+
+                                        body {
+                                            display: flex;
+                                            flex-direction: column;
+                                            background-color: ${backgroundColor};
+                                            justify-content: center;
+                                            align-items: center;
+                                            font-family: 'Poppins', sans-serif;
+                                        }
+
+                                        a {
+                                            text-decoration: none;
+                                            color: ${contactInfoColor};
+                                            line-height: 24px;
+                                            transition: .3s;
+                                        }
+
+                                        a:hover {
+                                            color: ${contactInfoColorHover};
+                                            transform: scale(1.2);
+                                            font-size: 18px;
+                                            transition: .3s;
+                                        }
+
+                                        h3 {
+                                            font-size: 18.72px;
+                                            line-height: 24px;
+                                        }
+                                    </style>
+
+                                    <div class="main">
+                                        <img src="${urlToLogo}" style="width:400px" draggable="false">
+                                        <br><br>
+                                        <h3>${textToText}</h3>
+                                        <br>
+                                        <div class="contact">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" style="height:50px" draggable="false">
+                                            <br>
+                                            <a href="#">eksempelmail@blisynlig.no</a>
+                                            <br><br><br>
+                                            <img src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/phone-512.png" style="height:50px" draggable="false">
+                                            <br>
+                                            <a href="#">123 45 678</a>
+                                        </div>
+                                    </div>
+                                    <br><br>`;
+
+                        document.getElementById('htmlCode').value = html;
+                    });            
+                </script>
+            </section>
+            <section>
+                <h3><?php _e("Kopier HTML koden og lim inn i en side eller post.", 'blisynlig'); ?></h3>
+                <textarea id="htmlCode" style="width: 100%; max-width: 100%; height: 200px;"></textarea>
+                <button class="button button-primary" id="copyHTML">Kopier HTML</button>
+                <script>
+                    document.getElementById('copyHTML').addEventListener('click', function (ev) {
+                        ev.preventDefault();
+                        document.getElementById('htmlCode').select();
+                        document.execCommand('copy');
+                    });            
+                </script>
+            </section>
         </form>
     </div>
 <?php }
