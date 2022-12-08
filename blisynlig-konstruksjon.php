@@ -96,7 +96,7 @@ function blisynlig_menu() {
     add_submenu_page('options-general.php',
         'BliSynlig AS - Under konstruksjon',
         'BliSynlig AS - Under konstruksjon',
-        'manage_options',
+        'edit_others_posts',
         'blisynlig-submenu-page',
         'blisynlig_submenu_page_callback');
     
